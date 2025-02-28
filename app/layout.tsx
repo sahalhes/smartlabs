@@ -6,8 +6,8 @@ import Sidebar from '@/components/sidebar';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Talk Data to Me',
-  description: 'A modern chat interface for data conversations',
+  title: 'SmartLabs',
+  description: 'A platform for learning and experimenting with new technologies',
 };
 
 export default function RootLayout({

@@ -143,9 +143,9 @@ export default function Home() {
           <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mb-4">
             <Sparkles className="h-6 w-6 text-blue-500" />
           </div>
-          <h1 className="text-2xl font-bold">Talk Data to Me</h1>
+          <h1 className="text-2xl font-bold">SmartLabs</h1>
           <p className="text-sm text-gray-500 text-center mt-2">
-            Choose a prompt below or write your own to start chatting with Max II
+            Choose a prompt below or write your own to start chatting with AI agents
           </p>
         </div>
 
