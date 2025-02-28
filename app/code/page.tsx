@@ -60,95 +60,77 @@ export default function CodePage() {
     return CODING_PATTERNS[Math.floor(Math.random() * CODING_PATTERNS.length)];
   };
 
-  const fetchRandomQuestion = async () => {
-    setIsQuestionLoading(true);
-    
-    try {
-      // Get a random pattern from our predefined list
-      const randomPattern = getRandomPattern();
-      
-      // Try to get a detailed question from the webhook
-      try {
-        const response = await fetch(WEBHOOK_URL_2, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ 
-            message: `Generate a concise coding question about: ${randomPattern}`,
-            type: "question"
-          }),
-          // Add a timeout to prevent hanging if the webhook is slow
-          signal: AbortSignal.timeout(5000)
-        });
+  const [selectedPattern, setSelectedPattern] = useState("");
 
-        if (response.ok) {
-          const data = await response.json();
-          
-          // Extract the question
-          if (Array.isArray(data) && data.length > 0 && data[0].output) {
-            setCurrentQuestion(data[0].output);
-            setIsQuestionLoading(false);
-            return;
-          } else if (data.response) {
-            setCurrentQuestion(data.response);
-            setIsQuestionLoading(false);
-            return;
-          }
-        }
-        
-        // If we reach here, use the random pattern directly
-        setCurrentQuestion(randomPattern);
-      } catch (error) {
-        console.error("Error fetching detailed question:", error);
-        // Fallback to using the pattern directly
+const fetchRandomQuestion = async () => {
+  setIsQuestionLoading(true);
+  const randomPattern = getRandomPattern();
+  setSelectedPattern(randomPattern); // Store the pattern in state
+
+  try {
+    const response = await fetch(WEBHOOK_URL_2, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ 
+        message: `Generate a concise coding question about: ${randomPattern}`,
+        type: "question"
+      }),
+      signal: AbortSignal.timeout(5000)
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      if (Array.isArray(data) && data.length > 0 && data[0].output) {
+        setCurrentQuestion(data[0].output);
+      } else if (data.response) {
+        setCurrentQuestion(data.response);
+      } else {
         setCurrentQuestion(randomPattern);
       }
-    } catch (error) {
-      console.error("Error in question generation:", error);
-      // Ultimate fallback - just pick a random pattern
-      setCurrentQuestion(getRandomPattern());
-    } finally {
-      setIsQuestionLoading(false);
+    } else {
+      setCurrentQuestion(randomPattern);
     }
-  };
+  } catch (error) {
+    console.error("Error fetching question:", error);
+    setCurrentQuestion(randomPattern);
+  } finally {
+    setIsQuestionLoading(false);
+  }
+};
+
 
   const handleSubmitCode = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!input.trim()) return;
-
-    // Add code message to list
+  
     const newCodeMessage: CodeMessage = {
       id: Date.now().toString(),
       code: input,
       isLoading: true,
     };
-
+  
     setCodeMessages((prev) => [...prev, newCodeMessage]);
     setInput("");
     setIsLoading(true);
-
+  
     try {
-      // Send code to webhook
+      console.log(selectedPattern);
       const response = await fetch(WEBHOOK_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
-          message: `Coding question: ${input}`,
+          message: `Coding question: ${input} based on pattern ${selectedPattern}`, // Use selectedPattern
           type: "code"
         }),
       });
-
+  
       if (!response.ok) {
         throw new Error(`Failed to get response: ${response.status}`);
       }
-
+  
       const data = await response.json();
       
-      // Extract the response
       let responseText = "I received your code!";
       
       if (Array.isArray(data) && data.length > 0 && data[0].output) {
@@ -156,8 +138,7 @@ export default function CodePage() {
       } else if (data.response) {
         responseText = data.response;
       }
-
-      // Update the code message with the response
+  
       setCodeMessages((prev) =>
         prev.map((msg) =>
           msg.id === newCodeMessage.id
@@ -167,16 +148,11 @@ export default function CodePage() {
       );
     } catch (error) {
       console.error("Error:", error);
-
-      // Update with error
+  
       setCodeMessages((prev) =>
         prev.map((msg) =>
           msg.id === newCodeMessage.id
-            ? {
-                ...msg,
-                error: "Failed to evaluate code. Please try again.",
-                isLoading: false,
-              }
+            ? { ...msg, error: "Failed to evaluate code. Please try again.", isLoading: false }
             : msg
         )
       );
@@ -184,6 +160,7 @@ export default function CodePage() {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <div className="flex flex-col h-full p-6">
