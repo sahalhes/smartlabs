@@ -52,7 +52,7 @@ export default function Sidebar() {
         )}
       >
         <div className="p-6">
-          <h1 className="text-xl font-bold mb-8">Talk Data to Me</h1>
+          <h1 className="text-xl font-bold mb-8">SmartLabs</h1>
           <nav className="space-y-1">
             {routes.map((route) => (
               <Link
