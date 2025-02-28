@@ -1,12 +1,9 @@
 "use client";
 
+import React from 'react';
 import { useState, useRef, useEffect } from "react";
 import { Send, Sparkles, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils";
-import { Card } from "@/components/ui/card";
+import { cn } from "../lib/utils";
 import ReactMarkdown from 'react-markdown';
 
 // The webhook URL for the chat service
@@ -19,6 +16,25 @@ type Message = {
   timestamp: Date;
 };
 
+type AvatarProps = {
+  src?: string;
+  alt?: string;
+  fallback: string;
+  className?: string;
+};
+
+const Avatar = ({ src, alt, fallback, className }: AvatarProps) => (
+  <div className={cn("relative h-8 w-8 rounded-full", className)}>
+    {src ? (
+      <img src={src} alt={alt || ""} className="h-full w-full rounded-full object-cover" />
+    ) : (
+      <div className="flex h-full w-full items-center justify-center rounded-full bg-blue-100 text-blue-600 text-xs font-medium">
+        {fallback}
+      </div>
+    )}
+  </div>
+);
+
 const QUICK_PROMPTS = [
   { id: 1, title: "Quick Hi ! 👋" },
   { id: 2, title: "Help with learning content" },
@@ -26,7 +42,7 @@ const QUICK_PROMPTS = [
   { id: 4, title: "See prompt library" },
 ];
 
-export default function Home() {
+export default function Page() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -136,10 +152,10 @@ export default function Home() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50 p-4">
-      <Card className="w-full max-w-2xl flex flex-col bg-white rounded-xl shadow-lg overflow-hidden">
+    <div className="flex flex-col h-screen bg-gray-50">
+      <div className="flex flex-col flex-1 overflow-hidden">
         {/* Header */}
-        <div className="p-6 flex flex-col items-center border-b">
+        <div className="p-6 flex flex-col items-center border-b bg-white">
           <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mb-4">
             <Sparkles className="h-6 w-6 text-blue-500" />
           </div>
@@ -150,7 +166,7 @@ export default function Home() {
         </div>
 
         {/* Quick Prompts */}
-        <div className="px-6 py-4 border-b">
+        <div className="px-6 py-4 border-b bg-white">
           <p className="text-sm font-medium text-gray-700 mb-3">Ask about:</p>
           <div className="grid grid-cols-2 gap-2">
             {QUICK_PROMPTS.map((prompt) => (
@@ -166,7 +182,7 @@ export default function Home() {
         </div>
 
         {/* Chat Messages */}
-        <div className="flex-1 overflow-y-auto p-6" style={{ maxHeight: "40vh", minHeight: "40vh" }}>
+        <div className="flex-1 overflow-y-auto p-6" style={{ minHeight: "40vh" }}>
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center text-gray-400">
               <p className="text-sm">Your conversation will appear here</p>
@@ -179,10 +195,11 @@ export default function Home() {
                   className={cn("flex gap-3 w-full", message.sender === "user" ? "justify-end" : "justify-start")}
                 >
                   {message.sender === "bot" && (
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage src="https://images.unsplash.com/photo-1589254065878-42c9da997008?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" alt="Bot" />
-                      <AvatarFallback className="bg-blue-100 text-blue-600">AI</AvatarFallback>
-                    </Avatar>
+                    <Avatar 
+                      src="https://images.unsplash.com/photo-1589254065878-42c9da997008?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" 
+                      alt="Bot" 
+                      fallback="AI"
+                    />
                   )}
 
                   <div className="flex flex-col max-w-[80%]">
@@ -200,20 +217,22 @@ export default function Home() {
                   </div>
 
                   {message.sender === "user" && (
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" alt="User" />
-                      <AvatarFallback className="bg-blue-100 text-blue-600">ME</AvatarFallback>
-                    </Avatar>
+                    <Avatar 
+                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" 
+                      alt="User" 
+                      fallback="ME"
+                    />
                   )}
                 </div>
               ))}
 
               {isLoading && (
                 <div className="flex gap-3">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src="https://images.unsplash.com/photo-1589254065878-42c9da997008?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" alt="Bot" />
-                    <AvatarFallback className="bg-blue-100 text-blue-600">AI</AvatarFallback>
-                  </Avatar>
+                  <Avatar 
+                    src="https://images.unsplash.com/photo-1589254065878-42c9da997008?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" 
+                    alt="Bot" 
+                    fallback="AI"
+                  />
                   <div className="flex items-center gap-1.5 bg-gray-100 rounded-xl px-4 py-2">
                     <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce [animation-delay:-0.3s]"></div>
                     <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce [animation-delay:-0.15s]"></div>
@@ -228,9 +247,9 @@ export default function Home() {
         </div>
 
         {/* Input Area */}
-        <div className="border-t p-4 bg-white rounded-b-lg">
+        <div className="border-t p-4 bg-white">
           <form onSubmit={handleSendMessage} className="flex w-full items-center gap-2">
-            <Input
+            <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Type your message..."
@@ -238,9 +257,8 @@ export default function Home() {
               disabled={isLoading}
             />
             <div className="text-xs text-gray-400 mr-2">{input.length}/2000</div>
-            <Button 
+            <button 
               type="submit" 
-              size="icon" 
               disabled={isLoading || !input.trim()} 
               className={cn(
                 "rounded-full h-10 w-10 flex items-center justify-center",
@@ -252,10 +270,10 @@ export default function Home() {
                 <Send className="h-4 w-4" />
               }
               <span className="sr-only">Send message</span>
-            </Button>
+            </button>
           </form>
         </div>
-      </Card>
+      </div>
     </div>
   );
 }
