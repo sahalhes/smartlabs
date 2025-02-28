@@ -1,6 +1,6 @@
 # SmartLabs
 
-Prototype - smartlabs.sahalhes.me
+Prototype - https://smartlabs.sahalhes.me
 Welcome to the SmartLabs project! This README will guide you through setting up the environment variables, local setup, and provide an overview of the tech stack used.
 
 ## Technologies used while building
