@@ -20,12 +20,10 @@ type Message = {
 };
 
 const QUICK_PROMPTS = [
-  { id: 1, title: "Clean account fields" },
-  { id: 2, title: "Clean contact fields" },
-  { id: 3, title: "Create master 'People' list" },
-  { id: 4, title: "Account Fit Score" },
-  { id: 5, title: "Match leads to account" },
-  { id: 6, title: "See prompt library" },
+  { id: 1, title: "Quick hi !" },
+  { id: 2, title: "Help with learning content" },
+  { id: 3, title: "Real time facts and data" },
+  { id: 4, title: "See prompt library" },
 ];
 
 export default function Home() {

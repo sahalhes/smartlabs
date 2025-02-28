@@ -7,11 +7,10 @@ export default function SamplePage() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && pathname === "/sample") {
       const fullUrl = `${window.location.origin}${pathname}`;
 
       try {
-        // Send the POST request when the component mounts
         fetch("https://n8n.sahalhes.me/webhook/53c136fe-3e77-4709-a143-fe82746dd8b6/chat", {
           method: "POST",
           headers: {
@@ -42,8 +41,7 @@ export default function SamplePage() {
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-3">Sample Content</h2>
           <p className="text-gray-600">
-            This page demonstrates a simple layout with header, content, and footer.
-            It's based on the sample code you provided.
+            This page demonstrates a simple layout with a header, content, and footer.
           </p>
         </div>
         
@@ -62,10 +60,9 @@ export default function SamplePage() {
         <h2 className="text-xl font-semibold mb-3 text-blue-800">About This Demo</h2>
         <p className="text-blue-700">
           This sample page is part of a larger application that includes a chat interface
-          and code evaluation functionality. Feel free to explore the other sections using
-          the sidebar navigation.
+          and code evaluation functionality.
         </p>
-      </div>
+      </div>  
     </div>
   );
 }

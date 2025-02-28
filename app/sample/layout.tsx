@@ -11,13 +11,12 @@ const SampleLayout = ({ children }: LayoutProps) => {
   const pageUrl = usePathname();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && pageUrl === "/sample") {
       const fullUrl = `${window.location.origin}${pageUrl}`;
 
       try {
-        console.log("Initializing chat instance for sample page...");
+        console.log("Initializing chat instance for /sample page...");
 
-        // Send the POST request when the component mounts
         fetch("https://n8n.sahalhes.me/webhook/53c136fe-3e77-4709-a143-fe82746dd8b6/chat", {
           method: "POST",
           headers: {
