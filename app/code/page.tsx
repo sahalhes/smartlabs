@@ -1,15 +1,29 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Send, Loader2 } from "lucide-react";
+import { Send, Loader2, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from 'react-markdown';
 
-// The webhook URL for the code evaluation service
+// The webhook URL for the agents
 const WEBHOOK_URL = process.env.NEXT_PUBLIC_WEBHOOK_URL || "";
+const WEBHOOK_URL_2 = process.env.NEXT_PUBLIC_WEBHOOK_URL_2 || "";
+
+const CODING_PATTERNS = [
+  "Implement a binary search algorithm",
+  "Write a breadth-first search (BFS) algorithm for a graph",
+  "Implement a depth-first search (DFS) algorithm for a tree",
+  "Write a merge sort algorithm",
+  "Implement a quick sort algorithm",
+  "Create a solution for the knapsack problem using dynamic programming",
+  "Implement a solution for finding the longest common subsequence",
+  "Write an algorithm to detect a cycle in a linked list",
+  "Implement a solution for the sliding window technique",
+  "Create an algorithm for topological sorting of a directed graph"
+];
 
 type CodeMessage = {
   id: string;
@@ -24,6 +38,8 @@ export default function CodePage() {
   const [codeMessages, setCodeMessages] = useState<CodeMessage[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState("");
+  const [isQuestionLoading, setIsQuestionLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom when messages change
@@ -31,8 +47,70 @@ export default function CodePage() {
     scrollToBottom();
   }, [codeMessages]);
 
+  // Fetch a random question on initial load
+  useEffect(() => {
+    fetchRandomQuestion();
+  }, []);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const getRandomPattern = () => {
+    return CODING_PATTERNS[Math.floor(Math.random() * CODING_PATTERNS.length)];
+  };
+
+  const fetchRandomQuestion = async () => {
+    setIsQuestionLoading(true);
+    
+    try {
+      // Get a random pattern from our predefined list
+      const randomPattern = getRandomPattern();
+      
+      // Try to get a detailed question from the webhook
+      try {
+        const response = await fetch(WEBHOOK_URL_2, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ 
+            message: `Generate a concise coding question about: ${randomPattern}`,
+            type: "question"
+          }),
+          // Add a timeout to prevent hanging if the webhook is slow
+          signal: AbortSignal.timeout(5000)
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          
+          // Extract the question
+          if (Array.isArray(data) && data.length > 0 && data[0].output) {
+            setCurrentQuestion(data[0].output);
+            setIsQuestionLoading(false);
+            return;
+          } else if (data.response) {
+            setCurrentQuestion(data.response);
+            setIsQuestionLoading(false);
+            return;
+          }
+        }
+        
+        // If we reach here, use the random pattern directly
+        setCurrentQuestion(randomPattern);
+      } catch (error) {
+        console.error("Error fetching detailed question:", error);
+        // Fallback to using the pattern directly
+        setCurrentQuestion(randomPattern);
+      }
+    } catch (error) {
+      console.error("Error in question generation:", error);
+      // Ultimate fallback - just pick a random pattern
+      setCurrentQuestion(getRandomPattern());
+    } finally {
+      setIsQuestionLoading(false);
+    }
   };
 
   const handleSubmitCode = async (e: React.FormEvent) => {
@@ -111,9 +189,29 @@ export default function CodePage() {
     <div className="flex flex-col h-full p-6">
       <div className="mb-6">
         <h1 className="text-2xl font-bold">Code Evaluation</h1>
-        <p className="text-gray-500">
-          Write or paste code snippets to evaluate them
-        </p>
+        
+        <div className="flex items-center justify-between mt-2 bg-blue-50 p-3 rounded-lg border border-blue-100">
+          <p className="text-gray-700 flex-1 truncate mr-2">
+            {isQuestionLoading ? (
+              <span className="flex items-center">
+                <Loader2 className="h-4 w-4 text-blue-500 animate-spin mr-2" />
+                Loading question...
+              </span>
+            ) : (
+              <span className="font-medium">{currentQuestion}</span>
+            )}
+          </p>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={fetchRandomQuestion}
+            disabled={isQuestionLoading}
+            className="flex-shrink-0"
+          >
+            <RefreshCw className="h-4 w-4 mr-1" />
+            New Question
+          </Button>
+        </div>
       </div>
 
       <div className="flex-1 overflow-auto mb-6">
