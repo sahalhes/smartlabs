@@ -2,10 +2,11 @@
 
 Welcome to the SmartLabs project! This README will guide you through setting up the environment variables, local setup, and provide an overview of the tech stack used.
 
-## Tech Stack
+## Technologies used while building
 
 - **Next.js**: A React framework for server-side rendering and generating static websites.
-- **n8n**: A workflow automation tool.
+- **n8n**: A workflow automation tool in backend.
+- **Postman**: Testing API calls
 - **ShadCN**: A design system for building consistent and beautiful user interfaces.
 - **Lucide**: An open-source icon library.
 
