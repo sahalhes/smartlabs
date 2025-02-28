@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Send, Loader2, RefreshCw } from "lucide-react";
+import { Send, Loader2, RefreshCw, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
@@ -40,6 +40,7 @@ export default function CodePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState("");
   const [isQuestionLoading, setIsQuestionLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom when messages change
@@ -51,6 +52,16 @@ export default function CodePage() {
   useEffect(() => {
     fetchRandomQuestion();
   }, []);
+
+  // Reset copied state after 2 seconds
+  useEffect(() => {
+    if (copied) {
+      const timer = setTimeout(() => {
+        setCopied(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [copied]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -160,6 +171,13 @@ export default function CodePage() {
     }
   };
 
+  const copyToClipboard = () => {
+    if (codeMessages.length > 0) {
+      navigator.clipboard.writeText(codeMessages[codeMessages.length - 1].code);
+      setCopied(true);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <h1 className="text-2xl font-bold mb-6">Code Evaluation</h1>
@@ -236,11 +254,24 @@ export default function CodePage() {
               <div className="p-2 bg-gray-100 border-b border-gray-200">
                 <h3 className="text-sm font-medium text-gray-700">Your Code:</h3>
               </div>
-              <div className="flex-1 overflow-auto p-4">
+              <div className="flex-1 overflow-auto p-4 relative">
                 {codeMessages.length > 0 ? (
-                  <pre className="bg-gray-900 text-white p-4 rounded-md overflow-x-auto h-full">
-                    <code>{codeMessages[codeMessages.length - 1].code}</code>
-                  </pre>
+                  <>
+                    <pre className="bg-gray-900 text-white p-4 rounded-md overflow-x-auto h-full">
+                      <code>{codeMessages[codeMessages.length - 1].code}</code>
+                    </pre>
+                    <button 
+                      onClick={copyToClipboard}
+                      className="absolute top-6 right-6 p-1.5 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-md transition-colors"
+                      title="Copy code"
+                    >
+                      {copied ? (
+                        <Check className="h-4 w-4 text-green-400" />
+                      ) : (
+                        <Copy className="h-4 w-4" />
+                      )}
+                    </button>
+                  </>
                 ) : (
                   <div className="flex items-center justify-center h-full text-gray-400">
                     Your submitted code will appear here
