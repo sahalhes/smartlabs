@@ -20,7 +20,7 @@ type Message = {
 };
 
 const QUICK_PROMPTS = [
-  { id: 1, title: "Quick hi !" },
+  { id: 1, title: "Quick Hi ! 👋" },
   { id: 2, title: "Help with learning content" },
   { id: 3, title: "Real time facts and data" },
   { id: 4, title: "See prompt library" },
