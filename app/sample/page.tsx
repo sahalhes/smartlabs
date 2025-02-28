@@ -24,35 +24,36 @@ export default function Page() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Welcome to Sample Page</h1>
+      <h1 className="text-2xl font-bold mb-4">Turing Machine Simulator</h1>
       <p className="text-gray-700 mb-6">
-        This is a sample page with some random information.
+        Explore the fundamentals of computation with an interactive Turing Machine simulation.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-3">Sample Content</h2>
+          <h2 className="text-xl font-semibold mb-3">What is a Turing Machine?</h2>
           <p className="text-gray-600">
-            This page demonstrates a simple layout with a header, content, and footer.
+            A Turing Machine is a mathematical model of computation that defines an abstract machine
+            manipulating symbols on a strip of tape according to a set of rules.
           </p>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-3">Features</h2>
+          <h2 className="text-xl font-semibold mb-3">Key Features</h2>
           <ul className="list-disc pl-5 space-y-2 text-gray-600">
-            <li>Responsive design</li>
-            <li>Clean interface</li>
-            <li>Easy navigation</li>
-            <li>Modern aesthetics</li>
+            <li>Infinite tape for unlimited computation</li>
+            <li>Deterministic and Non-Deterministic models</li>
+            <li>Foundation of modern computer science</li>
+            <li>Used in complexity theory and algorithms</li>
           </ul>
         </div>
       </div>
 
       <div className="bg-blue-50 p-6 rounded-lg border border-blue-100">
-        <h2 className="text-xl font-semibold mb-3 text-blue-800">About This Demo</h2>
+        <h2 className="text-xl font-semibold mb-3 text-blue-800">How This Works</h2>
         <p className="text-blue-700">
-          This sample page is part of a larger application that includes a chat interface
-          and code evaluation functionality.
+          This demo illustrates a simple Turing Machine setup. The chat interface allows you to
+          interact with a virtual machine that can process strings and demonstrate state transitions.
         </p>
       </div>
     </div>
