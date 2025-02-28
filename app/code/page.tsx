@@ -120,7 +120,7 @@ const fetchRandomQuestion = async () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
-          message: `Coding question: ${input} based on pattern ${selectedPattern}`, // Use selectedPattern
+          message: `Coding question: ${input}`, // Use selectedPattern
           type: "code"
         }),
       });
