@@ -1,34 +1,26 @@
 "use client";
 
 import { useEffect } from "react";
-import { usePathname } from "next/navigation";
+import "@n8n/chat/style.css";
+import { createChat } from "@n8n/chat";
 
-export default function SamplePage() {
-  const pathname = usePathname();
-
+export default function Page() {
   useEffect(() => {
-    if (typeof window !== "undefined" && pathname === "/sample") {
-      const fullUrl = `${window.location.origin}${pathname}`;
+    if (typeof window !== "undefined") {
+      console.log("Initializing chat widget...");
 
-      try {
-        fetch("https://n8n.sahalhes.me/webhook/53c136fe-3e77-4709-a143-fe82746dd8b6/chat", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            message: "please save this website for future use",
-            pageUrl: fullUrl,
-          }),
-        })
-        .then(response => response.json())
-        .then(data => console.log("Response:", data))
-        .catch(error => console.error("Error:", error));
-      } catch (error) {
-        console.error("Error initializing sample page:", error);
-      }
+      // Use environment variable for webhook URL
+      const chatInstance = createChat({
+        webhookUrl: process.env.NEXT_PUBLIC_WEBHOOK_CHAT || "",
+      });
+
+      return () => {
+        if (chatInstance && "destroy" in chatInstance && typeof chatInstance.destroy === "function") {
+          chatInstance.destroy();
+        }
+      };
     }
-  }, [pathname]);
+  }, []);
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -36,7 +28,7 @@ export default function SamplePage() {
       <p className="text-gray-700 mb-6">
         This is a sample page with some random information.
       </p>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-3">Sample Content</h2>
@@ -44,7 +36,7 @@ export default function SamplePage() {
             This page demonstrates a simple layout with a header, content, and footer.
           </p>
         </div>
-        
+
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-3">Features</h2>
           <ul className="list-disc pl-5 space-y-2 text-gray-600">
@@ -55,14 +47,14 @@ export default function SamplePage() {
           </ul>
         </div>
       </div>
-      
+
       <div className="bg-blue-50 p-6 rounded-lg border border-blue-100">
         <h2 className="text-xl font-semibold mb-3 text-blue-800">About This Demo</h2>
         <p className="text-blue-700">
           This sample page is part of a larger application that includes a chat interface
           and code evaluation functionality.
         </p>
-      </div>  
+      </div>
     </div>
   );
 }

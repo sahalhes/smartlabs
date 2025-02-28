@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import ReactMarkdown from 'react-markdown';
 
 // The webhook URL for the code evaluation service
-const WEBHOOK_URL = "https://n8n.sahalhes.me/webhook/study";
+const WEBHOOK_URL = process.env.NEXT_PUBLIC_WEBHOOK_URL || "";
 
 type CodeMessage = {
   id: string;
