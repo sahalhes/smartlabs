@@ -1,40 +1,30 @@
 "use client";
 
 import { type ReactNode, useEffect } from "react";
-import { usePathname } from 'next/navigation';
+import "@n8n/chat/style.css";
+import { createChat } from "@n8n/chat";
 
 interface LayoutProps {
   children: ReactNode;
 }
 
-const SampleLayout = ({ children }: LayoutProps) => {
-  const pageUrl = usePathname();
-
+const Layout = ({ children }: LayoutProps) => {
   useEffect(() => {
-    if (typeof window !== "undefined" && pageUrl === "/sample") {
-      const fullUrl = `${window.location.origin}${pageUrl}`;
+    if (typeof window !== "undefined") {
+      console.log("Initializing chat widget...");
 
-      try {
-        console.log("Initializing chat instance for /sample page...");
+      // Use environment variable for webhook URL
+      const chatInstance = createChat({
+        webhookUrl: process.env.NEXT_PUBLIC_WEBHOOK_CHAT || "",
+      });
 
-        fetch("https://n8n.sahalhes.me/webhook/53c136fe-3e77-4709-a143-fe82746dd8b6/chat", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            message: "please save this website for future use",
-            pageUrl: fullUrl,
-          }),
-        })
-        .then(response => response.json())
-        .then(data => console.log("Response:", data))
-        .catch(error => console.error("Error:", error));
-      } catch (error) {
-        console.error("Error initializing sample page:", error);
-      }
+      return () => {
+        if (chatInstance && "destroy" in chatInstance && typeof chatInstance.destroy === "function") {
+          chatInstance.destroy();
+        }
+      };
     }
-  }, [pageUrl]);
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -45,4 +35,4 @@ const SampleLayout = ({ children }: LayoutProps) => {
   );
 };
 
-export default SampleLayout;
+export default Layout;

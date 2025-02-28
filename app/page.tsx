@@ -10,7 +10,7 @@ import { Card } from "@/components/ui/card";
 import ReactMarkdown from 'react-markdown';
 
 // The webhook URL for the chat service
-const WEBHOOK_URL = "https://n8n.sahalhes.me/webhook/study";
+const WEBHOOK_URL = process.env.NEXT_PUBLIC_WEBHOOK_URL || "";
 
 type Message = {
   id: string;
