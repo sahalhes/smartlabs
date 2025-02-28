@@ -44,7 +44,9 @@ export default function Home() {
   };
 
   const handleSendMessage = async (e: React.FormEvent | string) => {
-    e?.preventDefault?.();
+    if (typeof e !== 'string') {
+      e.preventDefault();
+    }
     
     const messageText = typeof e === 'string' ? e : input;
     
