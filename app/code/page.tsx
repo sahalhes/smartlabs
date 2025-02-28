@@ -13,17 +13,57 @@ const WEBHOOK_URL = process.env.NEXT_PUBLIC_WEBHOOK_URL || "";
 const WEBHOOK_URL_2 = process.env.NEXT_PUBLIC_WEBHOOK_URL_2 || "";
 
 const CODING_PATTERNS = [
-  "Implement a binary search algorithm",
-  "Write a breadth-first search (BFS) algorithm for a graph",
-  "Implement a depth-first search (DFS) algorithm for a tree",
-  "Write a merge sort algorithm",
-  "Implement a quick sort algorithm",
-  "Create a solution for the knapsack problem using dynamic programming",
-  "Implement a solution for finding the longest common subsequence",
-  "Write an algorithm to detect a cycle in a linked list",
-  "Implement a solution for the sliding window technique",
-  "Create an algorithm for topological sorting of a directed graph"
+  // Basic Programming Concepts
+  "Write a program to perform arithmetic operations (+, -, *, /) on user input",
+  "Implement a program using if/else to check if a number is even or odd",
+  "Create a program that uses a for loop to print the Fibonacci sequence",
+  "Write a while loop to find the sum of digits of a number",
+
+  // Data Structures
+  "Implement a stack using an array with push and pop operations",
+  "Create a queue implementation using a linked list",
+  "Write a program to perform operations (insert, delete, search) on a linked list",
+
+  // Algorithms
+  "Implement Bubble Sort and display the sorted array",
+  "Write an Insertion Sort algorithm and analyze its time complexity",
+  "Implement Selection Sort with step-by-step output",
+  "Write a recursive function for Merge Sort",
+  "Implement Quick Sort and explain the partitioning process",
+  "Write a program to perform Linear Search in an array",
+  "Implement Binary Search using recursion",
+
+  // Recursion
+  "Write a recursive function to calculate the factorial of a number",
+  "Implement a recursive function to find the GCD of two numbers",
+  "Create a recursive function for computing Fibonacci numbers",
+
+  // Object-Oriented Programming (OOP)
+  "Define a class and create an object with attributes and methods",
+  "Implement constructors and destructors in a class",
+  "Write a program demonstrating getters and setters",
+  "Create an example of single and multiple inheritance",
+  "Use interfaces to define a contract for multiple classes",
+
+  // Mathematics
+  "Write a program to compute the LCM of two numbers",
+  "Calculate compound interest using a formula-based approach",
+  "Implement a program to find sin, cos, and tan values using built-in functions",
+
+  // File Handling
+  "Write a Python program to read a file and display its content",
+  "Implement a program that writes user input to a file",
+  "Create a program to append data to an existing file",
+
+  // Libraries
+  "Use NumPy to create and manipulate arrays",
+  "Plot a simple graph using Matplotlib with labels and a title",
+
+  // Security
+  "Write a program to analyze email headers for phishing detection",
+  "Implement basic string pattern matching to detect suspicious keywords in emails"
 ];
+
 
 type CodeMessage = {
   id: string;

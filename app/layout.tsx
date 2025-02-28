@@ -6,8 +6,11 @@ import Sidebar from '@/components/sidebar';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'SmartLabs',
+  title: "SmartLabs",
   description: 'A platform for learning and experimenting with new technologies',
+  icons:{
+    icon: "/favicon.ico",
+  }
 };
 
 export default function RootLayout({
@@ -17,6 +20,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+       <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
       <body className={inter.className}>
         <div className="flex h-screen overflow-hidden">
           <Sidebar />

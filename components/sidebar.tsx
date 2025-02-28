@@ -52,7 +52,10 @@ export default function Sidebar() {
         )}
       >
         <div className="p-6">
-          <h1 className="text-xl font-bold mb-8">SmartLabs</h1>
+          <div className="flex items-center gap-2 mb-8">
+            <img src="/favicon.ico" alt="SmartLabs Logo" className="w-6 h-6" />
+            <h1 className="text-xl font-bold">SmartLabs</h1>
+          </div>
           <nav className="space-y-1">
             {routes.map((route) => (
               <Link
