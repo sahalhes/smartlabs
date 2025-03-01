@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Code, FileText, Menu, X } from "lucide-react";
+import { Home, Code, FileText, Menu, X, Languages } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function Sidebar() {
@@ -20,6 +20,11 @@ export default function Sidebar() {
       icon: Code,
       label: "Code",
       href: "/code",
+    },
+    {
+      icon: Languages,
+      label: "Sign Language",
+      href: "/sign-language",
     },
     {
       icon: FileText,
