@@ -8,8 +8,6 @@ Prototype - https://smartlabs.sahalhes.me
 ![1](docs/smartlabs1.png)
 ![2](docs/smartlabs2.png)
 ![3](docs/smartlabs3.png)
-![4](docs/smartlabs4.png)
-
 
 ## Technologies used while building
 
