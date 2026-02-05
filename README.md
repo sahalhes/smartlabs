@@ -1,8 +1,15 @@
 # SmartLabs
 
 Prototype - https://smartlabs.sahalhes.me
-    
+(built during olabs hackathon)  
 - Welcome to the SmartLabs project! This README will guide you through setting up the environment variables, local setup, and provide an overview of the tech stack used.
+
+## Demo
+![1](docs/smartlabs1.png)
+![2](docs/smartlabs2.png)
+![3](docs/smartlabs3.png)
+![4](docs/smartlabs4.png)
+
 
 ## Technologies used while building
 
