@@ -1,6 +1,5 @@
 # SmartLabs
-[![Video Title](https://img.youtube.com/vi/8UVYmEpMhZ4/0.jpg)]
-(https://www.youtube.com/watch?v=8UVYmEpMhZ4)
+[![Video Title](https://img.youtube.com/vi/8UVYmEpMhZ4/0.jpg)](https://www.youtube.com/watch?v=8UVYmEpMhZ4)
 
 Prototype - https://smartlabs.sahalhes.me
 (built during olabs hackathon)  
