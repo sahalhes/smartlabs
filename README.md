@@ -1,6 +1,8 @@
 # SmartLabs
 
-https://github.com/user-attachments/assets/cd2d9ed9-34df-4529-a1fe-4e700b2c26b3
+
+https://github.com/user-attachments/assets/225379e4-9fa5-46f8-b924-e8e5de3216f6
+
 
 
 Prototype - https://smartlabs.sahalhes.me
