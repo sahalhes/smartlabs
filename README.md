@@ -1,5 +1,7 @@
 # SmartLabs
-[![Video Title](https://img.youtube.com/vi/8UVYmEpMhZ4/0.jpg)](https://www.youtube.com/watch?v=8UVYmEpMhZ4)
+
+https://github.com/user-attachments/assets/cd2d9ed9-34df-4529-a1fe-4e700b2c26b3
+
 
 Prototype - https://smartlabs.sahalhes.me
 (built during olabs hackathon)  
